@@ -7,7 +7,28 @@
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="Hello World, AndroidWaveTester"
+    android:textSize="14sp"
+    android:text="This is the AndroidWave Tester Application"
+    />
+<CheckBox
+    android:id="@+id/trace_checkbox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Record Trace"
+    />
+<Button
+    android:id="@+id/start_button"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16px"
+    android:layout_marginRight="16px"
+    android:text="Start"
+    />
+<TextView
+    android:id="@+id/message_textview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:text="Click start to begin the test."
     />
 </LinearLayout>
 
