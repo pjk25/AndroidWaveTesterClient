@@ -8,9 +8,7 @@
 
 package edu.berkeley.androidwave.testerclient;
 
-import edu.berkeley.androidwave.waveclient.IWaveServicePublic;
-import edu.berkeley.androidwave.waveclient.IWaveRecipeOutputDataListener;
-import edu.berkeley.androidwave.waveclient.ParcelableWaveRecipeOutputData;
+import edu.berkeley.androidwave.waveclient.*;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -129,6 +127,15 @@ public class AndroidWaveTester extends Activity
         testRunning = true;
         
         messageTextView.setText("Test started...");
+
+        try {
+            WaveRecipeAuthorizationInfo authInfo = mWaveService.retrieveAuthorizationInfo(API_KEY, chosenRecipeId);
+            messageTextView.setText("Test started...\n\nExpected Data Rate: "+authInfo.outputMaxRate+"Hz");
+        } catch (RemoteException re) {
+            Log.d(TAG, "lost connection to the service", re);
+            Toast.makeText(AndroidWaveTester.this, "Lost connection to WaveService", Toast.LENGTH_SHORT).show();
+        }
+
         // make the start button a stop button
         startButton.setOnClickListener(stopButtonListener);
         startButton.setText("Stop");
