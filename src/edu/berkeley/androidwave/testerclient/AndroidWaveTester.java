@@ -237,10 +237,12 @@ public class AndroidWaveTester extends Activity
             messageText += "\n";
             messageText += "You chose recipe "+chosenRecipeId+"\n";
             messageText += "\n";
-            messageText += ""+messageCount+" data samples were received in "+(startStopTime/1000.0)+" seconds, ";
-            messageText += "yielding an average rate of "+(1000.0*messageCount/startStopTime)+"Hz.\n";
+            messageText += String.format("%d data samples were received in %.2f, ", messageCount, (startStopTime/1000.0));
+            messageText += String.format("yielding an average rate of %.2fHz.\n", (1000.0*messageCount/startStopTime));
             
             messageTextView.setText(messageText);
+            
+            Log.i(TAG, messageText);
 
             if (shouldTrace) {
                 try {
