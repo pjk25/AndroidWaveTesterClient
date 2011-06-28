@@ -98,14 +98,27 @@ public class AndroidWaveTester extends Activity
         
         // connect to the service
         Intent i = new Intent(ACTION_WAVE_SERVICE);
-        if (bindService(i, mConnection, Context.BIND_AUTO_CREATE)) {
-            mBound = true;
-            Toast.makeText(AndroidWaveTester.this, "Connected to WaveService", Toast.LENGTH_SHORT).show();
-        } else {
-            Log.d(getClass().getSimpleName(), "Could not bind with "+i);
-            // TODO: replace this Toast with a dialog that allows quitting
-            Toast.makeText(AndroidWaveTester.this, "Could not connect to the WaveService!", Toast.LENGTH_SHORT).show();
-            messageTextView.setText("ERROR:\n\nFailed to bind to the WaveService.\n\nIs AndroidWave installed on this device?\n\nPlease address this issue and restart this Application.");
+        try {
+            if (bindService(i, mConnection, Context.BIND_AUTO_CREATE)) {
+                mBound = true;
+                Toast.makeText(AndroidWaveTester.this, "Connected to WaveService", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d(getClass().getSimpleName(), "Could not bind with "+i);
+                // TODO: replace this Toast with a dialog that allows quitting
+                Toast.makeText(AndroidWaveTester.this, "Could not connect to the WaveService!", Toast.LENGTH_SHORT).show();
+                messageTextView.setText("ERROR:\n\nFailed to bind to the WaveService.\n\nIs AndroidWave installed on this device?\n\nPlease address this issue and restart this Application.");
+            }
+        } catch (SecurityException se) {
+            Log.d(TAG, "SecurityException on bind", se);
+            AlertDialog.Builder builder = new AlertDialog.Builder(AndroidWaveTester.this);
+            builder.setMessage("Security Exception: "+se)
+                   .setCancelable(false)
+                   .setPositiveButton("Quit", new DialogInterface.OnClickListener() {
+                       public void onClick(DialogInterface dialog, int id) {
+                           AndroidWaveTester.this.finish();
+                       }
+                   });
+            AlertDialog alert = builder.show();
         }
     }
     
